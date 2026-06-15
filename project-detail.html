@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project Detail — Hammam Mujahid</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #0B0F1A; --surface: #111827; --card: #161D2E; --border: #1E2D45;
+  --accent: #38BDF8; --accent2: #818CF8; --accent3: #34D399; --accent4: #FB923C;
+  --text: #E2E8F0; --muted: #64748B; --white: #F8FAFC;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg); color: var(--text);
+  font-family: 'Space Grotesk', sans-serif;
+  min-height: 100vh; overflow-x: hidden;
+}
+
+/* Ambient glow bg */
+body::after {
+  content: ''; position: fixed;
+  width: 700px; height: 700px; border-radius: 50%;
+  background: var(--accent2); opacity: 0.04; filter: blur(150px);
+  top: -200px; right: -200px; pointer-events: none;
+}
+
+/* NAV */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.1rem 3rem;
+  background: rgba(11,15,26,0.92);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-back {
+  display: flex; align-items: center; gap: 0.6rem;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--muted); text-decoration: none;
+  border: 1px solid var(--border); padding: 0.45rem 1rem; border-radius: 6px;
+  transition: all 0.2s;
+}
+.nav-back:hover { color: var(--accent); border-color: var(--accent); }
+.nav-logo {
+  font-family: 'Space Mono', monospace; font-size: 0.8rem;
+  letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent);
+}
+.nav-all {
+  font-family: 'Space Mono', monospace; font-size: 0.72rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--muted); text-decoration: none;
+  transition: color 0.2s;
+}
+.nav-all:hover { color: var(--text); }
+
+/* LAYOUT */
+.page-wrap {
+  max-width: 1100px; margin: 0 auto;
+  padding: 4rem 3rem 6rem;
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 3.5rem;
+  align-items: start;
+}
+
+/* LEFT: MAIN CONTENT */
+.main-col {}
+
+/* BREADCRUMB */
+.breadcrumb {
+  display: flex; align-items: center; gap: 0.5rem;
+  font-family: 'Space Mono', monospace; font-size: 0.68rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 2.5rem;
+}
+.breadcrumb a { color: var(--muted); text-decoration: none; transition: color 0.2s; }
+.breadcrumb a:hover { color: var(--accent); }
+.breadcrumb span { color: var(--accent); }
+
+/* PROJECT HEADER */
+.project-icon-wrap {
+  display: flex; align-items: center; gap: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+.project-icon {
+  width: 64px; height: 64px; border-radius: 16px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2rem; border: 1px solid var(--border);
+}
+.project-badge {
+  font-family: 'Space Mono', monospace; font-size: 0.65rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 0.3rem 0.8rem; border-radius: 4px;
+}
+.project-date-badge {
+  font-family: 'Space Mono', monospace; font-size: 0.65rem;
+  letter-spacing: 0.1em; color: var(--muted);
+  background: var(--card); border: 1px solid var(--border);
+  padding: 0.3rem 0.8rem; border-radius: 4px;
+}
+
+.project-title {
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  font-weight: 700; letter-spacing: -0.03em;
+  color: var(--white); line-height: 1; margin-bottom: 1.25rem;
+}
+.project-tagline {
+  font-size: 1.05rem; color: var(--muted); line-height: 1.7;
+  max-width: 560px; margin-bottom: 2rem;
+}
+
+/* TAGS ROW */
+.tags-row {
+  display: flex; flex-wrap: wrap; gap: 0.5rem;
+  margin-bottom: 2.5rem;
+}
+.tag {
+  font-family: 'Space Mono', monospace; font-size: 0.65rem;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 0.3rem 0.75rem; border-radius: 4px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border); color: var(--muted);
+}
+
+/* DIVIDER */
+.divider {
+  height: 1px; background: var(--border); margin: 2rem 0;
+}
+
+/* SECTION LABEL */
+.sec-label {
+  font-family: 'Space Mono', monospace; font-size: 0.65rem;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 1rem;
+  display: flex; align-items: center; gap: 0.6rem;
+}
+.sec-label::before { content: ''; display: inline-block; width: 20px; height: 1px; background: var(--accent); }
+
+/* DESCRIPTION */
+.project-about { font-size: 0.96rem; color: var(--muted); line-height: 1.85; margin-bottom: 2rem; }
+.project-about p { margin-bottom: 1rem; }
+.project-about p:last-child { margin-bottom: 0; }
+.project-about strong { color: var(--text); }
+
+/* FEATURES */
+.feature-list { list-style: none; margin-bottom: 2rem; }
+.feature-list li {
+  display: flex; gap: 1rem; align-items: flex-start;
+  padding: 0.9rem 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.feature-list li:last-child { border-bottom: none; }
+.feature-icon {
+  width: 28px; height: 28px; border-radius: 7px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.85rem; margin-top: 0.1rem;
+}
+.fi-blue { background: rgba(56,189,248,0.12); }
+.fi-purple { background: rgba(129,140,248,0.12); }
+.fi-green { background: rgba(52,211,153,0.12); }
+.fi-orange { background: rgba(251,146,60,0.12); }
+.feature-text {}
+.feature-title { font-size: 0.92rem; font-weight: 600; color: var(--text); margin-bottom: 0.2rem; }
+.feature-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.55; }
+
+/* ═══════════════════════════════════════════
+   IMAGE GALLERY — the main feature
+═══════════════════════════════════════════ */
+.gallery-section { margin-bottom: 2rem; }
+
+.gallery-main {
+  position: relative;
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 14px; overflow: hidden;
+  aspect-ratio: 16/9;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 0.75rem;
+  cursor: pointer;
+}
+.gallery-main img {
+  width: 100%; height: 100%; object-fit: cover;
+  display: none; transition: opacity 0.3s;
+}
+.gallery-main img.active { display: block; }
+
+.gallery-placeholder {
+  display: flex; flex-direction: column; align-items: center; gap: 0.75rem;
+  color: var(--muted); text-align: center; padding: 2rem;
+}
+.gallery-placeholder .icon { font-size: 3rem; opacity: 0.25; }
+.gallery-placeholder p {
+  font-family: 'Space Mono', monospace; font-size: 0.72rem;
+  letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.5;
+}
+
+.gallery-nav {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  display: flex; justify-content: space-between; width: 100%; padding: 0 0.75rem;
+  pointer-events: none;
+}
+.gallery-nav button {
+  pointer-events: all;
+  width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(11,15,26,0.8); border: 1px solid var(--border);
+  color: var(--text); cursor: pointer; font-size: 0.9rem;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s; backdrop-filter: blur(8px);
+  opacity: 0; transition: opacity 0.2s;
+}
+.gallery-main:hover .gallery-nav button { opacity: 1; }
+.gallery-nav button:hover { border-color: var(--accent); color: var(--accent); }
+
+.gallery-counter {
+  position: absolute; bottom: 0.75rem; right: 0.75rem;
+  font-family: 'Space Mono', monospace; font-size: 0.65rem;
+  letter-spacing: 0.1em; padding: 0.25rem 0.6rem;
+  background: rgba(11,15,26,0.75); border-radius: 4px;
+  color: var(--muted); backdrop-filter: blur(8px);
+  display: none;
+}
+
+/* Thumbnails row */
+.gallery-thumbs {
+  display: flex; gap: 0.5rem; overflow-x: auto;
+  padding-bottom: 0.25rem; scrollbar-width: none;
+}
+.gallery-thumbs::-webkit-scrollbar { display: none; }
+
+.thumb {
+  flex-shrink: 0;
+  width: 72px; height: 56px;
+  border-radius: 8px; overflow: hidden;
+  border: 2px solid var(--border);
+  cursor: pointer; transition: all 0.2s;
+  background: var(--card);
+}
+.thumb img { width: 100%; height: 100%; object-fit: cover; }
+.thumb.active { border-color: var(--accent); }
+.thumb:hover { border-color: rgba(56,189,248,0.5); }
+
+/* Upload zone */
+.upload-zone {
+  border: 2px dashed var(--border); border-radius: 12px;
+  padding: 1.5rem; text-align: center;
+  cursor: pointer; transition: all 0.25s;
+  margin-top: 0.75rem;
+}
+.upload-zone:hover, .upload-zone.drag-over {
+  border-color: var(--accent);
+  background: rgba(56,189,248,0.04);
+}
+.upload-zone input { display: none; }
+.upload-zone-inner {
+  display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+}
+.upload-icon { font-size: 1.75rem; opacity: 0.4; }
+.upload-label {
+  font-family: 'Space Mono', monospace; font-size: 0.7rem;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted);
+}
+.upload-sub { font-size: 0.75rem; color: var(--muted); opacity: 0.6; }
+.upload-count {
+  margin-top: 0.25rem;
+  font-family: 'Space Mono', monospace; font-size: 0.65rem;
+  color: var(--accent3); letter-spacing: 0.05em;
+}
+
+/* Gallery actions */
+.gallery-actions {
+  display: flex; gap: 0.5rem; margin-top: 0.75rem; flex-wrap: wrap;
+}
+.gallery-action-btn {
+  font-family: 'Space Mono', monospace; font-size: 0.65rem;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 0.35rem 0.85rem; border-radius: 6px;
+  border: 1px solid var(--border); background: none;
+  color: var(--muted); cursor: pointer; transition: all 0.2s;
+}
+.gallery-action-btn:hover { border-color: var(--accent); color: var(--accent); }
+.gallery-action-btn.danger:hover { border-color: #F87171; color: #F87171; }
+
+/* LIGHTBOX */
+.lightbox {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.92); backdrop-filter: blur(12px);
+  z-index: 1000; align-items: center; justify-content: center;
+  flex-direction: column; gap: 1rem;
+}
+.lightbox.open { display: flex; }
+.lightbox img {
+  max-width: 92vw; max-height: 82vh;
+  object-fit: contain; border-radius: 8px;
+}
+.lightbox-close {
+  position: absolute; top: 1.5rem; right: 1.5rem;
+  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+  color: var(--text); width: 40px; height: 40px; border-radius: 10px;
+  font-size: 1.1rem; cursor: pointer; display: flex;
+  align-items: center; justify-content: center; transition: all 0.2s;
+}
+.lightbox-close:hover { background: rgba(255,255,255,0.15); }
+.lightbox-nav {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  width: 100%; display: flex; justify-content: space-between; padding: 0 1.5rem;
+}
+.lightbox-nav button {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+  color: var(--text); cursor: pointer; font-size: 1.2rem;
+  display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+}
+.lightbox-nav button:hover { background: rgba(255,255,255,0.18); }
+
+/* RIGHT SIDEBAR */
+.sidebar-col { position: sticky; top: 100px; }
+
+.sidebar-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 14px; padding: 1.75rem; margin-bottom: 1rem;
+  position: relative; overflow: hidden;
+}
+.sidebar-card::before {
+  content: ''; position: absolute;
+  top: 0; left: 0; right: 0; height: 2px;
+}
+.sidebar-card.blue::before { background: linear-gradient(to right, var(--accent), transparent); }
+.sidebar-card.purple::before { background: linear-gradient(to right, var(--accent2), transparent); }
+.sidebar-card.green::before { background: linear-gradient(to right, var(--accent3), transparent); }
+
+.sidebar-title {
+  font-family: 'Space Mono', monospace; font-size: 0.65rem;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 1.25rem;
+}
+
+/* Meta info rows */
+.meta-row {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding: 0.6rem 0; border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.meta-row:last-child { border-bottom: none; }
+.meta-key { font-size: 0.8rem; color: var(--muted); }
+.meta-val { font-size: 0.82rem; font-weight: 600; color: var(--text); text-align: right; max-width: 60%; }
+
+/* Status badge */
+.status-badge {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  font-family: 'Space Mono', monospace; font-size: 0.65rem;
+  letter-spacing: 0.08em; padding: 0.25rem 0.7rem;
+  border-radius: 20px;
+}
+.status-active { background: rgba(52,211,153,0.15); color: var(--accent3); border: 1px solid rgba(52,211,153,0.3); }
+.status-active::before { content: ''; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--accent3); animation: pulse 2s infinite; }
+.status-done { background: rgba(56,189,248,0.12); color: var(--accent); border: 1px solid rgba(56,189,248,0.25); }
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+/* Sidebar CTA */
+.sidebar-cta { width: 100%; }
+.btn-full {
+  display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+  width: 100%; padding: 0.85rem 1.5rem; border-radius: 8px;
+  font-family: 'Space Grotesk', sans-serif; font-size: 0.88rem; font-weight: 600;
+  cursor: pointer; transition: all 0.2s; text-decoration: none; border: none;
+  margin-bottom: 0.65rem;
+}
+.btn-primary { background: var(--accent); color: #0B0F1A; }
+.btn-primary:hover { background: #7DD3FC; transform: translateY(-2px); }
+.btn-ghost { background: transparent; color: var(--text); border: 1px solid var(--border); }
+.btn-ghost:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+/* Next/Prev project nav */
+.proj-nav {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 14px; overflow: hidden;
+}
+.proj-nav a {
+  display: flex; align-items: center; gap: 0.75rem;
+  padding: 1rem 1.25rem; text-decoration: none; transition: background 0.2s;
+}
+.proj-nav a:hover { background: var(--surface); }
+.proj-nav a + a { border-top: 1px solid var(--border); }
+.proj-nav-dir {
+  font-family: 'Space Mono', monospace; font-size: 0.6rem;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted);
+}
+.proj-nav-name { font-size: 0.88rem; font-weight: 600; color: var(--text); }
+.proj-nav-icon { font-size: 1.25rem; flex-shrink: 0; }
+
+/* RESPONSIVE */
+@media (max-width: 960px) {
+  .page-wrap { grid-template-columns: 1fr; gap: 2rem; }
+  .sidebar-col { position: static; }
+}
+@media (max-width: 640px) {
+  nav { padding: 1rem 1.25rem; }
+  .page-wrap { padding: 2rem 1.25rem 4rem; }
+  .project-title { font-size: 2rem; }
+  .nav-logo { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="all-projects.html" class="nav-back">← All Projects</a>
+  <div class="nav-logo">hm.dev</div>
+  <a href="portfolio.html" class="nav-all">Portfolio →</a>
+</nav>
+
+<div class="page-wrap" id="pageWrap">
+
+  <!-- MAIN COLUMN -->
+  <div class="main-col">
+
+    <div class="breadcrumb">
+      <a href="portfolio.html">Home</a> /
+      <a href="all-projects.html">Projects</a> /
+      <span id="breadTitle">Project</span>
+    </div>
+
+    <!-- Header -->
+    <div class="project-icon-wrap">
+      <div class="project-icon" id="projIcon" style="background:rgba(56,189,248,0.1)"></div>
+      <span class="project-badge" id="projBadge"></span>
+      <span class="project-date-badge" id="projDate"></span>
+    </div>
+
+    <h1 class="project-title" id="projTitle">Loading…</h1>
+    <p class="project-tagline" id="projTagline"></p>
+
+    <div class="tags-row" id="projTags"></div>
+
+    <div class="divider"></div>
+
+    <!-- ═══ IMAGE GALLERY ═══ -->
+    <div class="gallery-section">
+      <div class="sec-label">Screenshots &amp; Preview</div>
+
+      <div class="gallery-main" id="galleryMain" onclick="openLightbox()">
+        <div class="gallery-placeholder" id="galleryPlaceholder">
+          <div class="icon">🖼️</div>
+          <p>No images yet — upload below</p>
+        </div>
+        <img id="galleryActiveImg" src="" alt="Project screenshot">
+        <div class="gallery-nav">
+          <button onclick="changeSlide(-1, event)" title="Previous">&#8592;</button>
+          <button onclick="changeSlide(1, event)" title="Next">&#8594;</button>
+        </div>
+        <div class="gallery-counter" id="galleryCounter">1 / 1</div>
+      </div>
+
+      <div class="gallery-thumbs" id="galleryThumbs"></div>
+
+      <!-- Upload zone -->
+      <label class="upload-zone" id="uploadZone">
+        <input type="file" id="imageUpload" accept="image/*" multiple>
+        <div class="upload-zone-inner">
+          <div class="upload-icon">📁</div>
+          <div class="upload-label">Click or drag to upload screenshots</div>
+          <div class="upload-sub">PNG, JPG, WEBP — multiple files allowed</div>
+          <div class="upload-count" id="uploadCount"></div>
+        </div>
+      </label>
+
+      <div class="gallery-actions" id="galleryActions" style="display:none;">
+        <button class="gallery-action-btn" onclick="document.getElementById('imageUpload').click()">+ Add More</button>
+        <button class="gallery-action-btn danger" onclick="removeCurrentImage()">Remove Current</button>
+        <button class="gallery-action-btn danger" onclick="clearAllImages()">Clear All</button>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- About -->
+    <div class="sec-label">About This Project</div>
+    <div class="project-about" id="projAbout"></div>
+
+    <div class="divider"></div>
+
+    <!-- Features -->
+    <div class="sec-label">Key Features</div>
+    <ul class="feature-list" id="projFeatures"></ul>
+
+  </div>
+
+  <!-- SIDEBAR -->
+  <div class="sidebar-col">
+
+    <!-- Project Info -->
+    <div class="sidebar-card blue">
+      <div class="sidebar-title">Project Info</div>
+      <div class="meta-row">
+        <span class="meta-key">Status</span>
+        <span class="meta-val" id="sStatus"></span>
+      </div>
+      <div class="meta-row">
+        <span class="meta-key">Type</span>
+        <span class="meta-val" id="sType"></span>
+      </div>
+      <div class="meta-row">
+        <span class="meta-key">Timeline</span>
+        <span class="meta-val" id="sPeriod"></span>
+      </div>
+      <div class="meta-row">
+        <span class="meta-key">Platform</span>
+        <span class="meta-val" id="sPlatform"></span>
+      </div>
+      <div class="meta-row">
+        <span class="meta-key">Team</span>
+        <span class="meta-val" id="sTeam"></span>
+      </div>
+    </div>
+
+    <!-- Tech Stack -->
+    <div class="sidebar-card purple">
+      <div class="sidebar-title">Tech Stack</div>
+      <div class="tags-row" id="sTechStack" style="margin-bottom:0;"></div>
+    </div>
+
+    <!-- CTA -->
+    <div class="sidebar-card green sidebar-cta">
+      <div class="sidebar-title">Links</div>
+      <a href="#" class="btn-full btn-primary" id="sGithubBtn">⬡ View on GitHub</a>
+      <a href="#" class="btn-full btn-ghost" id="sLiveBtn">↗ Live Demo</a>
+    </div>
+
+    <!-- Project nav -->
+    <div class="proj-nav" id="projNav"></div>
+
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightboxImg" src="" alt="">
+  <div class="lightbox-nav">
+    <button onclick="changeSlide(-1, event)" title="Previous">&#8592;</button>
+    <button onclick="changeSlide(1, event)" title="Next">&#8594;</button>
+  </div>
+</div>
+
+<script>
+// ─── PROJECT DATA ───
+const PROJECTS = {
+  hydro: {
+    icon: '🌱', iconBg: 'rgba(52,211,153,0.12)',
+    badge: '🌿 IoT · Active', badgeClass: 'badge-green',
+    date: 'Jan 2026 – Present',
+    title: 'Smart Hydroponic App',
+    tagline: 'Real-time IoT monitoring for hydroponic systems — track pH, temperature, and nutrients directly from your phone.',
+    tags: ['Flutter', 'Firebase', 'IoT', 'QR Auth', 'Dart', 'Realtime DB'],
+    about: [
+      'A Flutter-based mobile application built as a final project, designed to give hydroponic farmers real-time visibility into their systems. The app connects to IoT sensors embedded in hydroponic tanks and streams live data to Firebase.',
+      'Farmers can <strong>pair new devices via QR code</strong> without any technical setup. The dashboard shows live readings with color-coded health indicators, making it easy to spot problems immediately.',
+      'The system is designed to scale — multiple tanks can be monitored from a single account, with per-tank historical data and configurable alert thresholds.',
+    ],
+    features: [
+      { icon: '📊', color: 'fi-green', title: 'Real-time Monitoring', desc: 'Live readings of pH, water temperature, electrical conductivity, and nutrient levels refreshed every few seconds via Firebase Realtime Database.' },
+      { icon: '📱', color: 'fi-blue', title: 'QR Device Pairing', desc: 'Scan a QR code on any compatible sensor node to add it to your account instantly. No manual configuration needed.' },
+      { icon: '🔔', color: 'fi-orange', title: 'Threshold Alerts', desc: 'Set custom min/max thresholds per metric. Get notified immediately when readings go out of range.' },
+      { icon: '📈', color: 'fi-purple', title: 'Historical Data', desc: 'View per-sensor data history with charts to track trends and detect patterns over time.' },
+    ],
+    meta: {
+      status: 'active', type: 'Final Project (D4)', period: 'Jan 2026 – Present',
+      platform: 'Mobile (Android/iOS)', team: 'Solo Developer',
+      github: 'https://github.com/Hammamujahid/smart_hydroponic.git', live: '#',
+    },
+    stack: ['Flutter', 'Dart', 'Firebase', 'Realtime DB', 'QR Auth', 'IoT'],
+    prev: null, next: { id: 'belajar', title: 'Belajar Uswah' },
+  },
+
+  belajar: {
+    icon: '📚', iconBg: 'rgba(56,189,248,0.12)',
+    badge: '🌐 Web · Academic', badgeClass: 'badge-blue',
+    date: 'Mar 2026',
+    title: 'Belajar Uswah',
+    tagline: 'A full-featured e-learning platform — course management, video uploads, role-based access, and a clean modern UI.',
+    tags: ['Laravel', 'PostgreSQL', 'Tailwind CSS', 'Cloudinary', 'PHP'],
+    about: [
+      'Belajar Uswah is a web-based Learning Management System built with Laravel and PostgreSQL. It provides a complete platform for instructors to create courses and for students to enroll, access materials, and track their progress.',
+      'All media — PDFs, videos, and images — are handled through <strong>Cloudinary</strong>, keeping the application lightweight while supporting rich content delivery.',
+      'The UI is fully responsive and built with Tailwind CSS, with a clean reading-focused design that makes studying comfortable on any screen size.',
+    ],
+    features: [
+      { icon: '🔐', color: 'fi-blue', title: 'Role-based Auth', desc: 'Separate instructor and student views. Instructors manage courses; students enroll and access materials.' },
+      { icon: '🎬', color: 'fi-purple', title: 'Media Uploads', desc: 'Upload PDFs, images, and videos via Cloudinary with progress tracking and auto-transcoding.' },
+      { icon: '📋', color: 'fi-green', title: 'Course Management', desc: 'Create, edit, and organize courses into modules. Control visibility per module.' },
+      { icon: '💾', color: 'fi-orange', title: 'PostgreSQL Backend', desc: 'Structured relational data with proper indexes, foreign keys, and migrations via Laravel Eloquent.' },
+    ],
+    meta: {
+      status: 'done', type: 'Academic Project', period: 'Mar 2026',
+      platform: 'Web', team: 'Solo Developer',
+      github: 'https://github.com/Hammamujahid/belajar_uswah.git', live: '#',
+    },
+    stack: ['Laravel', 'PHP', 'PostgreSQL', 'Tailwind CSS', 'Cloudinary', 'Blade'],
+    prev: { id: 'hydro', title: 'Smart Hydroponic App' }, next: { id: 'landing', title: 'Company Landing Page' },
+  },
+
+  landing: {
+    icon: '🚀', iconBg: 'rgba(251,146,60,0.12)',
+    badge: '💼 Web · Freelance', badgeClass: 'badge-orange',
+    date: 'May 2026',
+    title: 'Company Landing Page',
+    tagline: 'A polished, animated landing page and gallery website built for a freelance client — deployed to Vercel with a custom domain.',
+    tags: ['HTML', 'CSS', 'JavaScript', 'Vercel', 'Animation'],
+    about: [
+      'A freelance commission to build a responsive company landing page and image gallery. The brief called for strong visual polish, fast load times, and a multi-page layout that works flawlessly across mobile, tablet, and desktop.',
+      'Built without frameworks to keep the bundle lean. All animations are <strong>CSS-native or vanilla JS</strong> — no unnecessary dependencies.',
+      'Deployed on Vercel with a configured custom domain and optimized for Core Web Vitals.',
+    ],
+    features: [
+      { icon: '📱', color: 'fi-orange', title: 'Fully Responsive', desc: 'Fluid layouts that adapt to every screen size with a mobile-first approach.' },
+      { icon: '✨', color: 'fi-purple', title: 'Smooth Animations', desc: 'CSS transitions and Intersection Observer-based scroll reveals with reduced-motion support.' },
+      { icon: '🖼️', color: 'fi-blue', title: 'Image Gallery', desc: 'Filterable image gallery with a lightbox viewer, lazy loading, and smooth open/close transitions.' },
+      { icon: '⚡', color: 'fi-green', title: 'Vercel Deploy', desc: 'Deployed on Vercel with CI/CD from Git. Custom domain configured with HTTPS.' },
+    ],
+    meta: {
+      status: 'done', type: 'Freelance', period: 'May 2026',
+      platform: 'Web', team: 'Solo Developer',
+      github: 'https://github.com/Hammamujahid/serviskompresor.git', live: '#',
+    },
+    stack: ['HTML5', 'CSS3', 'JavaScript', 'Vercel'],
+    prev: { id: 'belajar', title: 'Belajar Uswah' }, next: { id: 'n8n', title: 'AI Automation Pipelines' },
+  },
+
+  n8n: {
+    icon: '⚡', iconBg: 'rgba(129,140,248,0.12)',
+    badge: '🤖 AI · Internship', badgeClass: 'badge-purple',
+    date: 'Aug 2025',
+    title: 'AI Automation Pipelines',
+    tagline: 'N8N-powered automation workflows connecting AI language models to real business processes — built during a WFH internship at PT TXC.',
+    tags: ['N8N', 'AI Integration', 'REST APIs', 'Automation', 'Workflow'],
+    about: [
+      'During a 1-month remote internship at PT TXC (TalentXCelerator) in Jakarta, I designed and deployed AI-powered workflow automation using N8N. The goal was to reduce repetitive manual tasks and integrate AI assistance into daily business operations.',
+      'Each pipeline connects <strong>external REST APIs, AI language models, and internal tools</strong> into a single automated flow — triggered either on a schedule or by incoming webhooks.',
+      'The work required a strong understanding of API design, JSON transformation, and conditional logic within N8N nodes.',
+    ],
+    features: [
+      { icon: '🔄', color: 'fi-purple', title: 'Multi-step Pipelines', desc: 'Chained workflows with branching logic, error handling, and retry mechanisms.' },
+      { icon: '🤖', color: 'fi-blue', title: 'AI Model Integration', desc: 'Connected large language models into workflows for classification, summarization, and response generation.' },
+      { icon: '🔌', color: 'fi-green', title: 'External API Connectors', desc: 'Built custom HTTP nodes to interface with third-party APIs and internal services.' },
+      { icon: '🧪', color: 'fi-orange', title: 'Testing & Debugging', desc: 'Systematically tested each pipeline node and fixed edge cases in complex multi-step automation sequences.' },
+    ],
+    meta: {
+      status: 'done', type: 'Internship Project', period: 'Aug 2025',
+      platform: 'Web / Automation', team: 'Intern at PT TXC',
+      github: '#', live: '#',
+    },
+    stack: ['N8N', 'REST APIs', 'AI/LLMs', 'JSON', 'Webhooks'],
+    prev: { id: 'landing', title: 'Company Landing Page' }, next: { id: 'docxtra', title: 'DOCXTRA' },
+  },
+
+  docxtra: {
+    icon: '📄', iconBg: 'rgba(129,140,248,0.12)',
+    badge: '📱 Mobile · AI', badgeClass: 'badge-purple',
+    date: '2024',
+    title: 'DOCXTRA',
+    tagline: 'Smart document management on mobile — summarize, ask questions, and compare documents using AI.',
+    tags: ['Flutter', 'AI', 'Mobile', 'Dart', 'NLP'],
+    about: [
+      'DOCXTRA is a mobile application built with Flutter that transforms how users interact with their documents. Instead of just storing files, DOCXTRA lets you have a conversation with them.',
+      'Users can upload a document and immediately ask questions about its content — the AI extracts relevant answers in natural language. The <strong>document similarity</strong> feature helps detect overlapping content between files.',
+      'The project explores practical AI integration in a mobile context, with a focus on making the experience feel native and fast despite the underlying model inference.',
+    ],
+    features: [
+      { icon: '✂️', color: 'fi-purple', title: 'AI Summarization', desc: 'Automatically generate concise summaries of long documents. Adjustable length and focus.' },
+      { icon: '💬', color: 'fi-blue', title: 'Document Q&A', desc: 'Ask natural language questions about document content and receive precise, context-aware answers.' },
+      { icon: '🔍', color: 'fi-orange', title: 'Similarity Detection', desc: 'Compare two documents and get a similarity score with highlighted overlapping sections.' },
+      { icon: '📱', color: 'fi-green', title: 'Flutter UI', desc: 'Smooth, native-feeling mobile UI built with Flutter with proper state management and navigation.' },
+    ],
+    meta: {
+      status: 'done', type: 'Academic Project', period: '2024',
+      platform: 'Mobile (Android)', team: 'Team Project',
+      github: 'https://github.com/Hammamujahid/Docxtra.git', live: null,
+    },
+    stack: ['Flutter', 'Dart', 'AI/NLP', 'REST API'],
+    prev: { id: 'n8n', title: 'AI Automation Pipelines' }, next: { id: 'klinik', title: 'Klinik Mobile App' },
+  },
+
+  klinik: {
+    icon: '🏥', iconBg: 'rgba(52,211,153,0.12)',
+    badge: '📱 Mobile · Healthcare', badgeClass: 'badge-green',
+    date: '2024',
+    title: 'Klinik Mobile Application',
+    tagline: 'A structured patient data management app for clinic staff — Flutter frontend, Laravel backend, reliable healthcare workflows.',
+    tags: ['Flutter', 'Laravel', 'Mobile', 'REST API', 'Healthcare'],
+    about: [
+      'A mobile application purpose-built for clinic staff to record and retrieve patient data in a structured, reliable way. The app replaces paper-based patient records with a clean digital interface.',
+      'The <strong>Flutter frontend</strong> handles patient registration, visit history, and data lookup. All data persists through a <strong>Laravel REST API</strong> backend, ensuring consistent validation and data integrity.',
+      'Designed with clinic workflows in mind — fast patient lookup, quick form entry, and minimal steps between actions.',
+    ],
+    features: [
+      { icon: '👤', color: 'fi-green', title: 'Patient Registration', desc: 'Register new patients with full personal and medical history data.' },
+      { icon: '📋', color: 'fi-blue', title: 'Visit Records', desc: 'Log each visit with diagnosis, treatment notes, and prescriptions.' },
+      { icon: '🔌', color: 'fi-purple', title: 'Laravel REST API', desc: 'Secure backend API handles all data validation, storage, and retrieval. Token-based authentication.' },
+      { icon: '📱', color: 'fi-orange', title: 'Fast Mobile UI', desc: 'Optimized Flutter UI for quick data entry and search — designed for busy clinic environments.' },
+    ],
+    meta: {
+      status: 'done', type: 'Academic Project', period: '2024',
+      platform: 'Mobile (Android)', team: 'Team Project',
+      github: 'https://github.com/Hammamujahid/E-Siklinik.git', live: null,
+    },
+    stack: ['Flutter', 'Dart', 'Laravel', 'PHP', 'REST API', 'MySQL'],
+    prev: { id: 'docxtra', title: 'DOCXTRA' }, next: null,
+  },
+};
+
+// ─── IMAGE GALLERY STATE ───
+let images = []; // { url, name }
+let currentIdx = 0;
+
+function refreshGallery() {
+  const placeholder = document.getElementById('galleryPlaceholder');
+  const activeImg = document.getElementById('galleryActiveImg');
+  const counter = document.getElementById('galleryCounter');
+  const thumbs = document.getElementById('galleryThumbs');
+  const actions = document.getElementById('galleryActions');
+  const uploadCount = document.getElementById('uploadCount');
+
+  if (images.length === 0) {
+    placeholder.style.display = '';
+    activeImg.style.display = 'none';
+    counter.style.display = 'none';
+    thumbs.innerHTML = '';
+    actions.style.display = 'none';
+    uploadCount.textContent = '';
+    return;
+  }
+
+  if (currentIdx >= images.length) currentIdx = images.length - 1;
+
+  placeholder.style.display = 'none';
+  activeImg.src = images[currentIdx].url;
+  activeImg.style.display = 'block';
+  counter.style.display = 'block';
+  counter.textContent = `${currentIdx + 1} / ${images.length}`;
+  actions.style.display = 'flex';
+  uploadCount.textContent = `${images.length} image${images.length > 1 ? 's' : ''} uploaded`;
+
+  // Thumbs
+  thumbs.innerHTML = '';
+  images.forEach((img, i) => {
+    const t = document.createElement('div');
+    t.className = 'thumb' + (i === currentIdx ? ' active' : '');
+    t.innerHTML = `<img src="${img.url}" alt="${img.name}">`;
+    t.onclick = () => { currentIdx = i; refreshGallery(); };
+    thumbs.appendChild(t);
+  });
+
+  // Lightbox
+  document.getElementById('lightboxImg').src = images[currentIdx].url;
+}
+
+function changeSlide(dir, e) {
+  if (e) e.stopPropagation();
+  if (images.length === 0) return;
+  currentIdx = (currentIdx + dir + images.length) % images.length;
+  refreshGallery();
+}
+
+function removeCurrentImage() {
+  if (images.length === 0) return;
+  images.splice(currentIdx, 1);
+  if (currentIdx >= images.length) currentIdx = Math.max(0, images.length - 1);
+  refreshGallery();
+}
+
+function clearAllImages() {
+  if (!confirm('Remove all images?')) return;
+  images = []; currentIdx = 0;
+  refreshGallery();
+}
+
+function openLightbox() {
+  if (images.length === 0) return;
+  document.getElementById('lightbox').classList.add('open');
+}
+
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+}
+
+// File upload
+document.getElementById('imageUpload').addEventListener('change', function(e) {
+  const files = Array.from(e.target.files);
+  let loaded = 0;
+  files.forEach(file => {
+    const reader = new FileReader();
+    reader.onload = ev => {
+      images.push({ url: ev.target.result, name: file.name });
+      loaded++;
+      if (loaded === files.length) {
+        currentIdx = images.length - files.length; // go to first new image
+        refreshGallery();
+      }
+    };
+    reader.readAsDataURL(file);
+  });
+  e.target.value = '';
+});
+
+// Drag & drop
+const zone = document.getElementById('uploadZone');
+zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
+zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+zone.addEventListener('drop', e => {
+  e.preventDefault(); zone.classList.remove('drag-over');
+  const files = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
+  if (!files.length) return;
+  let loaded = 0;
+  files.forEach(file => {
+    const reader = new FileReader();
+    reader.onload = ev => {
+      images.push({ url: ev.target.result, name: file.name });
+      loaded++;
+      if (loaded === files.length) { currentIdx = images.length - files.length; refreshGallery(); }
+    };
+    reader.readAsDataURL(file);
+  });
+});
+
+document.addEventListener('keydown', e => {
+  if (document.getElementById('lightbox').classList.contains('open')) {
+    if (e.key === 'ArrowLeft') changeSlide(-1);
+    if (e.key === 'ArrowRight') changeSlide(1);
+    if (e.key === 'Escape') closeLightbox();
+  }
+});
+
+// ─── LOAD PROJECT FROM URL ───
+function getParam(name) {
+  return new URLSearchParams(window.location.search).get(name);
+}
+
+function badgeHtml(cls, text) {
+  const colors = {
+    'badge-blue': 'rgba(56,189,248,0.15)',
+    'badge-purple': 'rgba(129,140,248,0.15)',
+    'badge-green': 'rgba(52,211,153,0.15)',
+    'badge-orange': 'rgba(251,146,60,0.15)',
+  };
+  const textColors = {
+    'badge-blue': '#38BDF8', 'badge-purple': '#818CF8',
+    'badge-green': '#34D399', 'badge-orange': '#FB923C',
+  };
+  const borders = {
+    'badge-blue': 'rgba(56,189,248,0.3)', 'badge-purple': 'rgba(129,140,248,0.3)',
+    'badge-green': 'rgba(52,211,153,0.3)', 'badge-orange': 'rgba(251,146,60,0.3)',
+  };
+  return `<span style="font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;padding:0.3rem 0.8rem;border-radius:4px;background:${colors[cls]};color:${textColors[cls]};border:1px solid ${borders[cls]};">${text}</span>`;
+}
+
+function loadProject(id) {
+  const p = PROJECTS[id];
+  if (!p) { document.getElementById('projTitle').textContent = 'Project not found.'; return; }
+
+  document.title = `${p.title} — Hammam Mujahid`;
+  document.getElementById('breadTitle').textContent = p.title;
+
+  // Header
+  const iconEl = document.getElementById('projIcon');
+  iconEl.style.background = p.iconBg;
+  iconEl.textContent = p.icon;
+  document.getElementById('projBadge').outerHTML; // reset
+  const badgeEl = document.getElementById('projBadge');
+  badgeEl.style.cssText = `font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;padding:0.3rem 0.8rem;border-radius:4px;`;
+  const badgeColors = {
+    'badge-blue': { bg: 'rgba(56,189,248,0.15)', c: '#38BDF8', b: 'rgba(56,189,248,0.3)' },
+    'badge-purple': { bg: 'rgba(129,140,248,0.15)', c: '#818CF8', b: 'rgba(129,140,248,0.3)' },
+    'badge-green': { bg: 'rgba(52,211,153,0.15)', c: '#34D399', b: 'rgba(52,211,153,0.3)' },
+    'badge-orange': { bg: 'rgba(251,146,60,0.15)', c: '#FB923C', b: 'rgba(251,146,60,0.3)' },
+  }[p.badgeClass];
+  badgeEl.style.background = badgeColors.bg;
+  badgeEl.style.color = badgeColors.c;
+  badgeEl.style.border = `1px solid ${badgeColors.b}`;
+  badgeEl.textContent = p.badge;
+  document.getElementById('projDate').textContent = p.date;
+  document.getElementById('projTitle').textContent = p.title;
+  document.getElementById('projTagline').textContent = p.tagline;
+
+  // Tags
+  document.getElementById('projTags').innerHTML = p.tags.map(t => `<span class="tag">${t}</span>`).join('');
+
+  // About
+  document.getElementById('projAbout').innerHTML = p.about.map(para => `<p>${para}</p>`).join('');
+
+  // Features
+  document.getElementById('projFeatures').innerHTML = p.features.map(f => `
+    <li>
+      <div class="feature-icon ${f.color}">${f.icon}</div>
+      <div class="feature-text">
+        <div class="feature-title">${f.title}</div>
+        <div class="feature-desc">${f.desc}</div>
+      </div>
+    </li>
+  `).join('');
+
+  // Sidebar meta
+  const m = p.meta;
+  const statusBadge = m.status === 'active'
+    ? `<span class="status-badge status-active">Active</span>`
+    : `<span class="status-badge status-done">Completed</span>`;
+  document.getElementById('sStatus').innerHTML = statusBadge;
+  document.getElementById('sType').textContent = m.type;
+  document.getElementById('sPeriod').textContent = m.period;
+  document.getElementById('sPlatform').textContent = m.platform;
+  document.getElementById('sTeam').textContent = m.team;
+
+  // Stack
+  document.getElementById('sTechStack').innerHTML = p.stack.map(t => `<span class="tag">${t}</span>`).join('');
+
+  // Links
+  const ghBtn = document.getElementById('sGithubBtn');
+  const liveBtn = document.getElementById('sLiveBtn');
+  if (m.github && m.github !== '#') ghBtn.href = m.github;
+  if (!m.live) liveBtn.style.display = 'none';
+  else if (m.live !== '#') liveBtn.href = m.live;
+
+  // Prev/Next nav
+  const navEl = document.getElementById('projNav');
+  let navHtml = '';
+  if (p.prev) navHtml += `<a href="project-detail.html?id=${p.prev.id}"><div class="proj-nav-dir">← Previous</div><div class="proj-nav-name">${p.prev.title}</div></a>`;
+  if (p.next) navHtml += `<a href="project-detail.html?id=${p.next.id}"><div style="text-align:right"><div class="proj-nav-dir">Next →</div><div class="proj-nav-name">${p.next.title}</div></div></a>`;
+  navEl.innerHTML = navHtml;
+}
+
+// Init
+const projectId = getParam('id') || 'hydro';
+loadProject(projectId);
+</script>
+</body>
+</html>

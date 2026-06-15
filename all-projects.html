@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>All Projects — Hammam Mujahid</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #0B0F1A;
+  --surface: #111827;
+  --card: #161D2E;
+  --card-hover: #1C2540;
+  --border: #1E2D45;
+  --accent: #38BDF8;
+  --accent2: #818CF8;
+  --accent3: #34D399;
+  --accent4: #FB923C;
+  --text: #E2E8F0;
+  --muted: #64748B;
+  --white: #F8FAFC;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Space Grotesk', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Background grid */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image:
+    linear-gradient(rgba(56,189,248,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(56,189,248,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* NAV */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.1rem 3rem;
+  background: rgba(11,15,26,0.9);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-back {
+  display: flex; align-items: center; gap: 0.6rem;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.75rem; letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted); text-decoration: none;
+  transition: color 0.2s;
+  border: 1px solid var(--border); padding: 0.45rem 1rem; border-radius: 6px;
+}
+.nav-back:hover { color: var(--accent); border-color: var(--accent); }
+.nav-title {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.8rem; letter-spacing: 0.15em;
+  text-transform: uppercase; color: var(--accent);
+}
+.nav-count {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem; color: var(--muted);
+  background: var(--card); border: 1px solid var(--border);
+  padding: 0.35rem 0.85rem; border-radius: 20px;
+}
+
+/* HEADER */
+.page-header {
+  position: relative; z-index: 1;
+  padding: 5rem 3rem 3rem;
+  max-width: 1200px; margin: 0 auto;
+}
+.page-eyebrow {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--accent3); margin-bottom: 1.25rem;
+  display: flex; align-items: center; gap: 0.6rem;
+}
+.page-eyebrow::before {
+  content: ''; display: inline-block;
+  width: 28px; height: 1px; background: var(--accent3);
+}
+.page-title {
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-weight: 700; letter-spacing: -0.03em;
+  color: var(--white); line-height: 0.95;
+  margin-bottom: 1.5rem;
+}
+.page-title .dim { color: var(--muted); font-weight: 300; }
+.page-subtitle {
+  font-size: 1rem; color: var(--muted);
+  max-width: 500px; line-height: 1.7;
+}
+
+/* FILTER BAR */
+.filter-bar {
+  position: relative; z-index: 1;
+  display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;
+  padding: 0 3rem 2.5rem;
+  max-width: 1200px; margin: 0 auto;
+}
+.filter-btn {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 0.4rem 1rem; border-radius: 20px;
+  border: 1px solid var(--border); background: transparent;
+  color: var(--muted); cursor: pointer; transition: all 0.2s;
+}
+.filter-btn:hover { border-color: var(--accent); color: var(--accent); }
+.filter-btn.active { background: var(--accent); border-color: var(--accent); color: #0B0F1A; font-weight: 700; }
+
+/* BENTO GRID */
+.bento-grid {
+  position: relative; z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-auto-rows: 100px;
+  gap: 1rem;
+  padding: 0 3rem 6rem;
+  max-width: 1200px; margin: 0 auto;
+}
+
+/* Card base */
+.bcard {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 2rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+  position: relative; overflow: hidden;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  text-decoration: none; color: inherit;
+}
+.bcard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 24px 48px rgba(0,0,0,0.4);
+}
+.bcard::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(circle at 80% 20%, var(--card-glow, transparent) 0%, transparent 60%);
+  pointer-events: none; opacity: 0; transition: opacity 0.3s;
+}
+.bcard:hover::before { opacity: 1; }
+
+/* Color glow variants */
+.bcard.blue { --card-glow: rgba(56,189,248,0.12); }
+.bcard.blue:hover { border-color: rgba(56,189,248,0.35); }
+.bcard.purple { --card-glow: rgba(129,140,248,0.12); }
+.bcard.purple:hover { border-color: rgba(129,140,248,0.35); }
+.bcard.green { --card-glow: rgba(52,211,153,0.12); }
+.bcard.green:hover { border-color: rgba(52,211,153,0.35); }
+.bcard.orange { --card-glow: rgba(251,146,60,0.12); }
+.bcard.orange:hover { border-color: rgba(251,146,60,0.35); }
+
+/* Grid spans */
+.bcard.span-4 { grid-column: span 4; }
+.bcard.span-5 { grid-column: span 5; }
+.bcard.span-6 { grid-column: span 6; }
+.bcard.span-7 { grid-column: span 7; }
+.bcard.span-8 { grid-column: span 8; }
+.bcard.span-12 { grid-column: span 12; }
+.bcard.rows-3 { grid-row: span 3; }
+.bcard.rows-4 { grid-row: span 4; }
+.bcard.rows-5 { grid-row: span 5; }
+.bcard.rows-6 { grid-row: span 6; }
+
+/* Card emoji/icon area */
+.bcard-icon {
+  position: absolute; top: 1.75rem; right: 1.75rem;
+  font-size: 2.5rem; line-height: 1; opacity: 0.18;
+  transition: opacity 0.3s, transform 0.3s;
+}
+.bcard:hover .bcard-icon { opacity: 0.35; transform: scale(1.1) rotate(-5deg); }
+
+.bcard-badge {
+  display: inline-flex; align-items: center; gap: 0.35rem;
+  font-family: 'Space Mono', monospace; font-size: 0.62rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 0.25rem 0.65rem; border-radius: 4px;
+  margin-bottom: 1rem; align-self: flex-start;
+}
+.badge-blue { background: rgba(56,189,248,0.15); color: var(--accent); border: 1px solid rgba(56,189,248,0.25); }
+.badge-purple { background: rgba(129,140,248,0.15); color: var(--accent2); border: 1px solid rgba(129,140,248,0.25); }
+.badge-green { background: rgba(52,211,153,0.15); color: var(--accent3); border: 1px solid rgba(52,211,153,0.25); }
+.badge-orange { background: rgba(251,146,60,0.15); color: var(--accent4); border: 1px solid rgba(251,146,60,0.25); }
+
+.bcard-date {
+  font-family: 'Space Mono', monospace; font-size: 0.65rem;
+  color: var(--muted); letter-spacing: 0.1em; margin-bottom: 0.5rem;
+}
+.bcard-title {
+  font-size: 1.15rem; font-weight: 700; color: var(--white);
+  margin-bottom: 0.6rem; line-height: 1.25;
+}
+.bcard-title.large { font-size: 1.5rem; }
+.bcard-desc {
+  font-size: 0.82rem; color: var(--muted); line-height: 1.6;
+  margin-bottom: 1.1rem;
+}
+.bcard-tags {
+  display: flex; flex-wrap: wrap; gap: 0.35rem;
+  margin-bottom: 1rem;
+}
+.bcard-tag {
+  font-family: 'Space Mono', monospace; font-size: 0.6rem;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 0.2rem 0.55rem; border-radius: 3px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border); color: var(--muted);
+}
+.bcard-link {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  font-family: 'Space Mono', monospace; font-size: 0.7rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--accent); opacity: 0;
+  transform: translateY(6px); transition: all 0.25s;
+}
+.bcard:hover .bcard-link { opacity: 1; transform: translateY(0); }
+
+/* Wide horizontal card (featured) */
+.bcard.featured {
+  flex-direction: row; align-items: center;
+  gap: 2rem; padding: 2.5rem;
+}
+.bcard.featured .bcard-icon {
+  position: relative; top: auto; right: auto;
+  font-size: 4rem; opacity: 0.7; flex-shrink: 0;
+}
+.bcard.featured:hover .bcard-icon { opacity: 1; transform: scale(1.05) rotate(-3deg); }
+.bcard.featured .bcard-body { flex: 1; }
+
+/* Accent line top */
+.bcard.accent-line::after {
+  content: ''; position: absolute;
+  top: 0; left: 1.75rem; right: 1.75rem; height: 2px;
+  border-radius: 0 0 2px 2px;
+  background: linear-gradient(to right, var(--line-color, var(--accent)), transparent);
+}
+.bcard.line-blue { --line-color: var(--accent); }
+.bcard.line-purple { --line-color: var(--accent2); }
+.bcard.line-green { --line-color: var(--accent3); }
+.bcard.line-orange { --line-color: var(--accent4); }
+
+/* Skill pill cluster (for compact cards) */
+.bcard-metric {
+  font-family: 'Space Mono', monospace;
+  font-size: 2rem; font-weight: 700;
+  color: var(--white); line-height: 1;
+  margin-bottom: 0.3rem;
+}
+.bcard-metric em { color: var(--accent); font-style: normal; }
+
+/* Hidden cards for filter */
+.bcard[data-cat].hidden { display: none; }
+
+/* FOOTER */
+.page-footer {
+  position: relative; z-index: 1;
+  text-align: center;
+  padding: 3rem;
+  border-top: 1px solid var(--border);
+}
+.page-footer p {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.7rem; color: var(--muted); letter-spacing: 0.1em;
+}
+.page-footer a { color: var(--accent); text-decoration: none; }
+
+/* MODAL */
+.modal-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(10px);
+  z-index: 500; align-items: center; justify-content: center;
+  padding: 1.5rem;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 20px; max-width: 640px; width: 100%;
+  padding: 2.5rem; position: relative;
+  max-height: 90vh; overflow-y: auto;
+  animation: slideUp 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.modal-close {
+  position: absolute; top: 1.25rem; right: 1.25rem;
+  background: none; border: 1px solid var(--border);
+  color: var(--muted); width: 34px; height: 34px;
+  border-radius: 8px; cursor: pointer; font-size: 1rem;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+}
+.modal-close:hover { border-color: var(--accent); color: var(--accent); }
+.modal-emoji { font-size: 3rem; margin-bottom: 1rem; }
+.modal-period {
+  font-family: 'Space Mono', monospace; font-size: 0.68rem;
+  letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent);
+  margin-bottom: 0.4rem;
+}
+.modal-title { font-size: 1.75rem; font-weight: 700; color: var(--white); margin-bottom: 1rem; }
+.modal-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.5rem; }
+.modal-desc { font-size: 0.95rem; color: var(--muted); line-height: 1.8; margin-bottom: 1.5rem; }
+.modal-list { list-style: none; }
+.modal-list li {
+  font-size: 0.9rem; color: var(--text);
+  padding: 0.5rem 0 0.5rem 1.5rem;
+  position: relative;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.modal-list li:last-child { border-bottom: none; }
+.modal-list li::before { content: '→'; position: absolute; left: 0; color: var(--accent3); }
+.modal-cta {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  margin-top: 1.5rem; padding: 0.75rem 1.5rem;
+  border-radius: 8px; background: var(--accent);
+  color: #0B0F1A; font-weight: 700; font-size: 0.85rem;
+  text-decoration: none; transition: all 0.2s;
+}
+.modal-cta:hover { background: #7DD3FC; transform: translateY(-2px); }
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  nav { padding: 1rem 1.5rem; }
+  .page-header, .filter-bar { padding-left: 1.5rem; padding-right: 1.5rem; }
+  .bento-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: auto;
+    padding: 0 1.5rem 4rem;
+    gap: 0.75rem;
+  }
+  .bcard { grid-column: span 1 !important; grid-row: span 1 !important; padding: 1.5rem; }
+  .bcard.featured { flex-direction: column; gap: 1rem; }
+  .bcard.featured .bcard-icon { font-size: 2.5rem; }
+  .bcard-link { opacity: 1; transform: none; }
+}
+@media (max-width: 520px) {
+  .bento-grid { grid-template-columns: 1fr; }
+  .nav-count { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="portfolio.html" class="nav-back">← Back to Portfolio</a>
+  <div class="nav-title">Projects</div>
+  <div class="nav-count">6 Projects</div>
+</nav>
+
+<!-- HEADER -->
+<div class="page-header">
+  <div class="page-eyebrow">Full Archive</div>
+  <h1 class="page-title">Things I've<br><span class="dim">built &amp; shipped.</span></h1>
+  <p class="page-subtitle">A collection of web, mobile, IoT, and AI automation projects — from academic work to freelance clients.</p>
+</div>
+
+<!-- FILTER -->
+<div class="filter-bar">
+  <button class="filter-btn active" data-filter="all">All</button>
+  <button class="filter-btn" data-filter="mobile">Mobile</button>
+  <button class="filter-btn" data-filter="web">Web</button>
+  <button class="filter-btn" data-filter="iot">IoT</button>
+  <button class="filter-btn" data-filter="ai">AI / Automation</button>
+</div>
+
+<!-- BENTO GRID -->
+<div class="bento-grid" id="bentoGrid">
+
+  <!-- Row 1: Featured IoT card (wide) + small web card -->
+  <a class="bcard green accent-line line-green span-7 rows-5 featured" data-cat="iot" href="project-detail.html?id=hydro" onclick="openModal('hydro',event)">
+    <div class="bcard-icon">🌱</div>
+    <div class="bcard-body">
+      <span class="bcard-badge badge-green">IoT · Active</span>
+      <div class="bcard-date">Jan 2026 – Present</div>
+      <div class="bcard-title large">Smart Hydroponic App</div>
+      <p class="bcard-desc">Real-time IoT monitoring for hydroponic systems — pH, temperature, nutrients. Firebase sync, QR device pairing, and clean data dashboards.</p>
+      <div class="bcard-tags">
+        <span class="bcard-tag">Flutter</span>
+        <span class="bcard-tag">Firebase</span>
+        <span class="bcard-tag">IoT</span>
+        <span class="bcard-tag">QR Auth</span>
+        <span class="bcard-tag">Dart</span>
+      </div>
+      <div class="bcard-link">View Details →</div>
+    </div>
+  </a>
+
+  <a class="bcard blue accent-line line-blue span-5 rows-5" data-cat="web" href="project-detail.html?id=belajar" onclick="openModal('belajar',event)">
+    <div class="bcard-icon">📚</div>
+    <span class="bcard-badge badge-blue">Web · Academic</span>
+    <div class="bcard-date">Mar 2026</div>
+    <div class="bcard-title">Belajar Uswah</div>
+    <p class="bcard-desc">Full-featured e-learning platform with course management, Cloudinary media uploads, role-based access, and a clean Tailwind UI.</p>
+    <div class="bcard-tags">
+      <span class="bcard-tag">Laravel</span>
+      <span class="bcard-tag">PostgreSQL</span>
+      <span class="bcard-tag">Tailwind</span>
+      <span class="bcard-tag">Cloudinary</span>
+    </div>
+    <div class="bcard-link">View Details →</div>
+  </a>
+
+  <!-- Row 2: Landing page + AI card -->
+  <a class="bcard orange accent-line line-orange span-4 rows-5" data-cat="web" href="project-detail.html?id=landing" onclick="openModal('landing',event)">
+    <div class="bcard-icon">🚀</div>
+    <span class="bcard-badge badge-orange">Web · Freelance</span>
+    <div class="bcard-date">May 2026</div>
+    <div class="bcard-title">Company Landing Page</div>
+    <p class="bcard-desc">Responsive landing page and gallery. Smooth animations, multi-device layouts, deployed to Vercel with custom domain.</p>
+    <div class="bcard-tags">
+      <span class="bcard-tag">HTML/CSS</span>
+      <span class="bcard-tag">JavaScript</span>
+      <span class="bcard-tag">Vercel</span>
+    </div>
+    <div class="bcard-link">View Details →</div>
+  </a>
+
+  <a class="bcard purple accent-line line-purple span-8 rows-5" data-cat="ai" href="project-detail.html?id=n8n" onclick="openModal('n8n',event)">
+    <div class="bcard-icon">⚡</div>
+    <span class="bcard-badge badge-purple">AI · Internship</span>
+    <div class="bcard-date">Aug 2025</div>
+    <div class="bcard-title large">AI Automation Pipelines</div>
+    <p class="bcard-desc">Built at PT TXC — N8N workflows connecting AI models and external APIs into automated business processes. Eliminated hours of manual work per day.</p>
+    <div class="bcard-tags">
+      <span class="bcard-tag">N8N</span>
+      <span class="bcard-tag">AI Integration</span>
+      <span class="bcard-tag">REST APIs</span>
+      <span class="bcard-tag">Automation</span>
+    </div>
+    <div class="bcard-link">View Details →</div>
+  </a>
+
+  <!-- Row 3: Two mobile apps side by side -->
+  <a class="bcard purple accent-line line-purple span-6 rows-5" data-cat="mobile ai" href="project-detail.html?id=docxtra" onclick="openModal('docxtra',event)">
+    <div class="bcard-icon">📄</div>
+    <span class="bcard-badge badge-purple">Mobile · AI</span>
+    <div class="bcard-date">2024</div>
+    <div class="bcard-title">DOCXTRA</div>
+    <p class="bcard-desc">Smart document management app — summarize documents, ask questions about content, and detect similarity. AI-powered on mobile.</p>
+    <div class="bcard-tags">
+      <span class="bcard-tag">Flutter</span>
+      <span class="bcard-tag">AI</span>
+      <span class="bcard-tag">Mobile</span>
+      <span class="bcard-tag">Dart</span>
+    </div>
+    <div class="bcard-link">View Details →</div>
+  </a>
+
+  <a class="bcard green accent-line line-green span-6 rows-5" data-cat="mobile" href="project-detail.html?id=klinik" onclick="openModal('klinik',event)">
+    <div class="bcard-icon">🏥</div>
+    <span class="bcard-badge badge-green">Mobile · Healthcare</span>
+    <div class="bcard-date">2024</div>
+    <div class="bcard-title">Klinik Mobile App</div>
+    <p class="bcard-desc">Clinic staff patient management — structured data recording with Flutter frontend and Laravel backend API for reliable healthcare workflows.</p>
+    <div class="bcard-tags">
+      <span class="bcard-tag">Flutter</span>
+      <span class="bcard-tag">Laravel</span>
+      <span class="bcard-tag">REST API</span>
+    </div>
+    <div class="bcard-link">View Details →</div>
+  </a>
+
+</div>
+
+<!-- FOOTER -->
+<div class="page-footer">
+  <p>© 2026 <a href="portfolio.html">Hammam Mujahid</a> · Surabaya, Indonesia</p>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
+  <div class="modal" id="modalContent">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-emoji" id="mIcon"></div>
+    <div class="modal-period" id="mPeriod"></div>
+    <div class="modal-title" id="mTitle"></div>
+    <div class="modal-tags" id="mTags"></div>
+    <p class="modal-desc" id="mDesc"></p>
+    <ul class="modal-list" id="mFeatures"></ul>
+    <a class="modal-cta" id="mCta" href="#">View Full Details →</a>
+  </div>
+</div>
+
+<script>
+const projects = {
+  hydro: {
+    icon: '🌱', period: 'Jan 2026 – Present', id: 'hydro',
+    title: 'Smart Hydroponic App',
+    tags: ['Flutter', 'Firebase', 'IoT', 'QR Auth', 'Dart'],
+    desc: 'A Flutter-based IoT monitoring app for hydroponic systems. Provides real-time plant health metrics through a clean mobile interface.',
+    features: [
+      'Real-time monitoring of pH, temperature, and nutrient levels',
+      'Firebase Realtime Database for live data sync across devices',
+      'QR-based device pairing and user authentication',
+      'Responsive UI with data visualization dashboards',
+    ]
+  },
+  belajar: {
+    icon: '📚', period: 'Mar 2026', id: 'belajar',
+    title: 'Belajar Uswah',
+    tags: ['Laravel', 'PostgreSQL', 'Tailwind CSS', 'Cloudinary'],
+    desc: 'A web-based e-learning platform with a full learning management system including course enrollment, material access, and instructor tools.',
+    features: [
+      'Authentication and role-based access control (student / instructor)',
+      'Course and module management system',
+      'Material uploads (PDF, video) via Cloudinary',
+      'Responsive UI built with Tailwind CSS',
+      'PostgreSQL database for structured data management',
+    ]
+  },
+  landing: {
+    icon: '🚀', period: 'May 2026', id: 'landing',
+    title: 'Company Landing Page',
+    tags: ['HTML', 'CSS', 'JavaScript', 'Vercel'],
+    desc: 'A freelance-built responsive company landing page and gallery website focused on visual polish and cross-device compatibility.',
+    features: [
+      'Responsive layout for mobile, tablet, and desktop',
+      'Smooth CSS and JavaScript animations',
+      'Image gallery with lightbox functionality',
+      'Deployed on Vercel with custom domain',
+    ]
+  },
+  n8n: {
+    icon: '⚡', period: 'Aug 2025', id: 'n8n',
+    title: 'AI Automation Pipelines',
+    tags: ['N8N', 'AI Integration', 'REST APIs', 'Automation'],
+    desc: 'Built during a 1-month WFH internship at PT TXC. Designed and deployed AI-driven workflows to automate repetitive business processes.',
+    features: [
+      'Built automation pipelines using N8N workflow engine',
+      'Integrated external REST APIs into automated flows',
+      'Connected AI language models into business logic workflows',
+      'Tested and debugged complex multi-step automation sequences',
+    ]
+  },
+  docxtra: {
+    icon: '📄', period: '2024', id: 'docxtra',
+    title: 'DOCXTRA',
+    tags: ['Flutter', 'AI', 'Mobile', 'Dart'],
+    desc: 'A smart document management mobile app using AI to help users summarize, query, and compare documents.',
+    features: [
+      'AI-powered document summarization',
+      'Natural language Q&A based on document content',
+      'Document similarity / plagiarism detection',
+      'Clean mobile UI built with Flutter',
+    ]
+  },
+  klinik: {
+    icon: '🏥', period: '2024', id: 'klinik',
+    title: 'Klinik Mobile Application',
+    tags: ['Flutter', 'Laravel', 'Mobile', 'REST API'],
+    desc: 'A mobile app for clinic staff to efficiently record and manage patient data with a Flutter frontend and Laravel backend.',
+    features: [
+      'Patient registration and data management',
+      'Structured data storage with Laravel backend',
+      'REST API integration between Flutter and Laravel',
+      'Clean, healthcare-focused UI',
+    ]
+  },
+};
+
+function openModal(key, e) {
+  e.preventDefault();
+  const p = projects[key];
+  if (!p) return;
+  document.getElementById('mIcon').textContent = p.icon;
+  document.getElementById('mPeriod').textContent = p.period;
+  document.getElementById('mTitle').textContent = p.title;
+  document.getElementById('mTags').innerHTML = p.tags.map(t => `<span class="bcard-tag">${t}</span>`).join('');
+  document.getElementById('mDesc').textContent = p.desc;
+  document.getElementById('mFeatures').innerHTML = p.features.map(f => `<li>${f}</li>`).join('');
+  document.getElementById('mCta').href = `project-detail.html?id=${p.id}`;
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function closeModalOutside(e) {
+  if (e.target === document.getElementById('modalOverlay')) closeModal();
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+// Filter
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const filter = btn.dataset.filter;
+    document.querySelectorAll('.bcard').forEach(card => {
+      const cats = card.dataset.cat || '';
+      if (filter === 'all' || cats.includes(filter)) {
+        card.classList.remove('hidden');
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+  });
+});
+</script>
+</body>
+</html>
